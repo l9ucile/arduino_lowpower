@@ -1,12 +1,13 @@
 const boolean PRESSED = 0;
 const int BUTTONPIN = 1
-const int 
+const int LEDPIN = 2;
 int counter = 0;
-boolean oppose_value ;
+boolean tampon_value ;
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(BUTTONPIN,INPUT);
+  pinMode(LEDPIN,OUTPUT);
   Serial.begin(9600);
 }
 
@@ -15,9 +16,8 @@ void loop() {
   if (PRESSED = digitalRead(BUTTONPIN) )
   {
     while (PRESSED = digitalRead(BUTTONPIN) );
-    oppose_value = digitalRead(BUTTONPIN)
     delay(1);
-
-
+    digitalWrite(LEDPIN, !digitalRead(LEDPIN));
+    ++ counter;
   }
 }
