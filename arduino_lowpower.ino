@@ -1,9 +1,15 @@
 #include <avr/power.h>
+#define SMO 1
+#define SM1 2
+#define SM2 3
+
 //const boolean PRESSED = 0;
 //const int BUTTONPIN = 1
 const int LEDPIN = 2;
 //int counter = 0;
-//boolean tampon_value ;
+////boolean tampon_value ;
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -25,22 +31,29 @@ void setup() {
   onOffLed(1);
   power_usart0_disable();
   onOffLed(1);
+
+
+
+  
  // Selection of the iddle mode with SMCR register
   SMCR &= ~(1 << SMO); 
+  
   SMCR &= ~(1 << SM1);
   SMCR &= ~(1 << SM2);
 
   delay(3); // Delay to permit to switch clocks
 
   //Switch from External Clock to RC Clock
-  if ((UDINT  & ~(1 << SUSPI) == 1)       // if (UDINT.SUSPI == 1)
-  UDINT  &= ~(1 << SUSPI);                //UDINT.SUSPI = 0;
-  USBCON |= ( 1 <<FRZCLK);                //USBCON.FRZCLK = 1;
-  PLLCSR &= ~(1 << PLLE);                 //PLLCSR.PLLE = 0;
-  CLKSEL0 |= (1 << RCE);                  //CLKSEL0.RCE = 1;
-  while ( (CLKSTA & (1 << RCON)) == 0){}  //while (CLKSTA.RCON != 1);
-  CLKSEL0 &= ~(1 << CLKS);                //CLKSEL0.CLKS = 0;
-  CLKSEL0 &= ~(1 << EXTE);                //CLKSEL0.EXTE = 0;
+  if ((UDINT  & (~(1 << SUSPI)))== 1) // if (UDINT.SUSPI == 1)
+  {
+    UDINT  &= ~(1 << SUSPI);                //UDINT.SUSPI = 0;
+    USBCON |= ( 1 <<FRZCLK);                //USBCON.FRZCLK = 1;
+    PLLCSR &= ~(1 << PLLE);                 //PLLCSR.PLLE = 0;
+    CLKSEL0 |= (1 << RCE);                  //CLKSEL0.RCE = 1;
+    while ( (CLKSTA & (1 << RCON)) == 0){}  //while (CLKSTA.RCON != 1);
+    CLKSEL0 &= ~(1 << CLKS);                //CLKSEL0.CLKS = 0;
+    CLKSEL0 &= ~(1 << EXTE);                //CLKSEL0.EXTE = 0;
+  }
   onOffLed(3);
 
 }
@@ -65,5 +78,4 @@ void onOffLed(int times) {
     delay(500);
   }
 } 
- 
 
